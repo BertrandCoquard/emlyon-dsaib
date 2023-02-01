@@ -1,0 +1,46 @@
+def on_pin_pressed_p0():
+    pass
+input.on_pin_pressed(TouchPin.P0, on_pin_pressed_p0)
+
+def Emergency():
+    for index in range(3):
+        basic.show_leds("""
+            . . . . .
+                        . # # # .
+                        . # # # .
+                        . # # # .
+                        . . . . .
+        """)
+        basic.show_leds("""
+            . . . . .
+                        . . . . .
+                        . . # . .
+                        . . . . .
+                        . . . . .
+        """)
+        basic.clear_screen()
+
+def on_button_pressed_a():
+    pass
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def send_radio_alert():
+    radio.send_string("\"SOS\"")
+
+def on_received_string(receivedString):
+    global Nb_calls
+    basic.show_string(receivedString)
+    Nb_calls += 1
+    basic.show_number(Nb_calls)
+    if Nb_calls >= 3:
+        music.play_melody("C5 A C5 A C5 A C5 A ", 120)
+radio.on_received_string(on_received_string)
+
+def on_gesture_shake():
+    send_radio_alert()
+    Emergency()
+input.on_gesture(Gesture.SHAKE, on_gesture_shake)
+
+Nb_calls = 0
+radio.set_group(666)
+Nb_calls = 0
