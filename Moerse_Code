@@ -1,0 +1,116 @@
+def on_button_pressed_a():
+    global current
+    if len(current) < 5:
+        current = "" + current + "1"
+    else:
+        current = "1"
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_ab():
+    global current
+    current = ""
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
+
+def on_button_pressed_b():
+    global current
+    if len(current) < 5:
+        current = "" + current + "0"
+    else:
+        current = "0"
+input.on_button_pressed(Button.B, on_button_pressed_b)
+
+current = ""
+basic.show_leds("""
+    . . . . .
+        . . . . .
+        # . # # #
+        . . . . .
+        . . . . .
+""")
+Letters = ["ERROR!!!",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0"]
+Morse = ["000000",
+    "10",
+    "0111",
+    "0101",
+    "011",
+    "1",
+    "1101",
+    "001",
+    "1111",
+    "11",
+    "1000",
+    "010",
+    "1011",
+    "00",
+    "01",
+    "000",
+    "1001",
+    "0010",
+    "101",
+    "111",
+    "0",
+    "110",
+    "1110",
+    "100",
+    "0110",
+    "0100",
+    "0011",
+    "10000",
+    "11000",
+    "11100",
+    "11110",
+    "11111",
+    "01111",
+    "00111",
+    "00011",
+    "00001",
+    "00000"]
+
+def on_forever():
+    if Morse.index(current) > 0:
+        basic.show_string("" + (Letters[Morse.index(current)]))
+    else:
+        basic.show_leds("""
+            . . . . .
+                        . . . . .
+                        # . # # #
+                        . . . . .
+                        . . . . .
+        """)
+basic.forever(on_forever)
